@@ -1,0 +1,368 @@
+
+
+
+
+
+####  fig.s1a  ####
+ggplot(dat_nat, aes(x = richness, fill = sample_source)) +
+  geom_histogram(
+    bins = 30,
+    alpha = 0.6,
+    position = "identity"
+    #color = "black", size = 0.5
+  ) +
+  scale_fill_manual(
+    values = c(
+      "phyllosphere" = "#4DAF4A",   # 绿色：叶际
+      "rhizosphere" = "#e09f3e"    # 棕色：根际
+    ),
+    name = "Sample source"
+  ) +
+  theme_classic() +
+  labs(
+    x = "Richness of pathogenic fungi",
+    y = "Frequency"
+  )
+
+
+####  fig.s1b  ####
+ggplot(bat_rich, aes(x = rich_rela, fill = sample_source)) +
+  geom_histogram(
+    bins = 30,
+    alpha = 0.6,
+    position = "identity"
+    #color = "black", size = 0.5
+  ) +
+  scale_fill_manual(
+    values = c(
+      "phyllosphere" = "#4DAF4A",   # 绿色：叶际
+      "rhizosphere" = "#e09f3e"    # 棕色：根际
+    ),
+    name = "Sample source"
+  ) +
+  theme_classic() +
+  labs(
+    x = "Proportion of richness",
+    y = "Frequency"
+  )
+
+
+
+####  fig.2d  ####
+plot_1 <- ggplot(dat_nat, aes(x = lat, y = richness, color = sample_source)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_continuous(
+    breaks = c(25,30,35,40,45),
+    labels = paste0(c(25,30,35,40,45), "°N")
+  )+
+  scale_color_manual(
+    values = c(
+      "phyllosphere" = "#4DAF4A",   # 绿色：叶际
+      "rhizosphere" = "#e09f3e"    # 棕色：根际
+    )
+  ) +
+  theme_classic()
+plot_2 <- ggplot(dat_nat, aes(x = lat, y = relative, color = sample_source)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_continuous(
+    breaks = c(25,30,35,40,45),
+    labels = paste0(c(25,30,35,40,45), "°N")
+  )+
+  scale_color_manual(
+    values = c(
+      "phyllosphere" = "#8ac926",   # 绿色：叶际
+      "rhizosphere" = "#ffca3a"    # 棕色：根际
+    )
+  ) +
+  theme_classic()
+plot <- plot_1 + plot_2
+plot
+
+
+####  fig.2a  ####
+ggplot(accum_all, aes(x = Samples, y = Richness, 
+                      color = Compartment, fill = Compartment)) +
+  geom_line(size = 1.2) +
+  geom_ribbon(aes(ymin = Lower, ymax = Upper), 
+              alpha = 0.25, color = NA) +
+  theme_classic() +
+  labs(
+    x = "Number of samples",
+    y = "Observed ASV richness",
+    title = "Accumulation curves of phyllosphere and rhizosphere"
+  ) +
+  scale_color_manual(values = c(
+    Phyllosphere = "#4DAF4A",
+    Rhizosphere  = "#e09f3e"
+  )) +
+  scale_fill_manual(values = c(
+    Phyllosphere = "#4DAF4A",
+    Rhizosphere  = "#e09f3e"
+  ))
+
+
+####  fig.s3a  ####
+ggplot(accum_df, aes(x = samples, y = richness, color = site, fill = site)) +
+  geom_line(size = 1) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2, color = NA) +
+  theme_classic() +
+  labs(
+    x = "Number of samples",
+    y = "Observed ASV richness",
+    title = "Phylloshpere accumulation curves per site"
+  ) +
+  scale_color_brewer(palette = "Set1") +
+  scale_fill_brewer(palette = "Set1")
+
+
+
+####  fig.s3b  ####
+ggplot(accum_df, aes(x = samples, y = richness, color = site, fill = site)) +
+  geom_line(size = 1) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2, color = NA) +
+  theme_classic() +
+  labs(
+    x = "Number of samples",
+    y = "Observed ASV richness",
+    title = "Rhizosphere accumulation curves per site"
+  ) +
+  scale_color_brewer(palette = "Set1") +
+  scale_fill_brewer(palette = "Set1")
+
+
+
+####  fig.2c top  ####
+ggplot(bat_richness, aes(x = sample, y = richness, fill = Class.y)) +
+  geom_col(width = 0.8) +  # 每个样本柱宽固定
+  facet_wrap(~ site, scales = "free_x", nrow = 1) +  # 每个 site 分面
+  theme_classic() +
+  labs(x = "Sample", y = "ASV richness", fill = "Class") +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+    strip.background = element_rect(fill = "#f0f0f0"),
+    strip.text = element_text(face = "bold")
+  ) +
+  scale_fill_manual(values = my_colors)
+
+####  fig.2c down  ####
+ggplot(bat_richness, aes(x = sample, y = richness, fill = Class.y)) +
+  geom_col(width = 0.8) +  # 每个样本柱宽固定
+  facet_wrap(~ site, scales = "free_x", nrow = 1) +  # 每个 site 分面
+  theme_classic() +
+  labs(x = "Sample", y = "ASV richness", fill = "Class") +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+    strip.background = element_rect(fill = "#f0f0f0"),
+    strip.text = element_text(face = "bold")
+  ) +
+  scale_fill_manual(values = my_colors)
+
+
+####  fig.2e  ####
+ggplot(lat_effect,
+       aes(Class.y, estimate, color = group,  group = group)) +
+  geom_point(size = 3) +
+  geom_line() +
+  coord_flip() +
+  theme_classic()
+
+
+####  fig.s5a  ####
+ggplot(bat_richness_2,
+       aes(lat, richness, color = ge)) +
+  geom_point(alpha = 0.6, size = 3) +
+  geom_smooth(method = "lm", se = TRUE) +
+  stat_poly_eq(
+    aes(label = paste(..rr.label.., ..p.value.label.., sep = "~~~")),
+    formula = y ~ x,
+    parse = TRUE,
+    size = 4
+  ) +
+  scale_color_manual(values = c(
+    "#4DBBD5",
+    "#E64B35",
+    #"#00A087",
+    "#3C5488"
+    #"#F39B7F"
+  ))+
+  scale_x_continuous(
+    breaks = c(25,30,35,40,45),
+    labels = paste0(c(25,30,35,40,45), "°N")
+  ) +
+  theme_classic()
+
+
+####  fig.s5b  ####
+ggplot(bat_richness_2,
+       aes(lat, richness, color = ge)) +
+  geom_point(alpha = 0.6, size = 3) +
+  geom_smooth(method = "lm", se = TRUE) +
+  stat_poly_eq(
+    aes(label = paste(..rr.label.., ..p.value.label.., sep = "~~~")),
+    formula = y ~ x,
+    parse = TRUE,
+    size = 4
+  ) +
+  scale_color_manual(values = c(
+    "#4DBBD5",
+    "#E64B35",
+    #"#00A087",
+    "#3C5488"
+    #"#F39B7F"
+  ))+
+  scale_x_continuous(
+    breaks = c(25,30,35,40,45),
+    labels = paste0(c(25,30,35,40,45), "°N")
+  ) +
+  theme_classic()
+
+
+####  fig.s4a  ####
+ggplot(bat_site_class_richness,
+       aes(x = site, y = mean_richness, fill = Class.y)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(
+    data = bat_site_total_richness,
+    aes(
+      x = site,
+      ymin = mean_total - se_total,
+      ymax = mean_total + se_total
+    ),
+    inherit.aes = FALSE,
+    width = 0.25,
+    color = "black"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = my_colors) +
+  labs(
+    x = "Site",
+    y = "Mean ASV richness per sample",
+    fill = "Class"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+####  fig.s4b  ####
+ggplot(bat_site_class_richness,
+       aes(x = site, y = mean_richness, fill = Class.y)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(
+    data = bat_site_total_richness,
+    aes(
+      x = site,
+      ymin = mean_total - se_total,
+      ymax = mean_total + se_total
+    ),
+    inherit.aes = FALSE,
+    width = 0.25,
+    color = "black"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = my_colors) +
+  labs(
+    x = "Site",
+    y = "Mean ASV richness per sample",
+    fill = "Class"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+
+
+
+####  fig.2b left  ####
+ggplot(bat_site_total_richness, aes(x = site, y = mean_total)) +
+  # SE 用线表示
+  geom_errorbar(aes(ymin = mean_total - se_total,
+                    ymax = mean_total + se_total),
+                width = 0.2, color = "black") +
+  coord_flip() +  # 旋转 90°
+  # 均值用方块表示
+  geom_point(shape = 15, size = 4, fill = "steelblue", color = "black") +
+  theme_classic() +
+  labs(
+    x = "Site",
+    y = "Mean total"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title = element_text(size = 14)
+  )
+
+####  fig.2b right  ####
+ggplot(bat_site_total_richness, aes(x = site, y = mean_total)) +
+  # SE 用线表示
+  geom_errorbar(aes(ymin = mean_total - se_total,
+                    ymax = mean_total + se_total),
+                width = 0.2, color = "black") +
+  coord_flip() +  # 旋转 90°
+  # 均值用方块表示
+  geom_point(shape = 15, size = 4, fill = "steelblue", color = "black") +
+  theme_classic() +
+  labs(
+    x = "Site",
+    y = "Mean total"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title = element_text(size = 14)
+  )
+
+
+
+
+
+####  fig.s7a  ####
+ggplot(scores_nmds, aes(NMDS1, NMDS2)) +
+  geom_point(
+    aes(
+      color = site
+    ),
+    size = 3,
+    alpha = 0.55
+  ) +
+  theme_classic() +
+  scale_color_brewer(palette = "Set1")+
+  labs(
+    color = "Site"
+  )
+
+
+####  fig.3a_down  ####
+plot(vp, 
+     bg = c("#66c2a5","#fc8d62"),  # site, family
+     Xnames = c("Site", "Family"), 
+     cex = 1.2
+)
+
+####  fig.s7b  ####
+ggplot(scores_nmds, aes(NMDS1, NMDS2)) +
+  geom_point(
+    aes(
+      color = site
+    ),
+    size = 3,
+    alpha = 0.55
+  ) +
+  theme_classic() +
+  scale_color_brewer(palette = "Set1")+
+  labs(
+    color = "Site"
+  )
+
+
+####  fig.s6a_down  ####
+plot(vp, 
+     bg = c("#66c2a5","#fc8d62"),  # site, family
+     Xnames = c("Site", "Family"), 
+     cex = 1.2
+)
+
